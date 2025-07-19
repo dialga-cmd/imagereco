@@ -1,0 +1,30 @@
+cmake_minimum_required(VERSION 3.15)
+project(ImageSearchAI)
+
+set(CMAKE_CXX_STANDARD 17)
+
+# Enable vcpkg integration (if vcpkg is in your environment)
+set(CMAKE_TOOLCHAIN_FILE "C:/vcpkg/scripts/buildsystems/vcpkg.cmake" CACHE STRING "Vcpkg toolchain file")
+
+# Find required packages
+find_package(OpenCV REQUIRED)
+find_package(CURL REQUIRED)
+find_package(LibXml2 REQUIRED)
+find_package(nlohmann_json REQUIRED)
+
+# ONNX Runtime paths
+set(ONNXRUNTIME_DIR "C:/libs/onnxruntime-win-x64-1.22.1")
+include_directories(${ONNXRUNTIME_DIR}/include)
+link_directories(${ONNXRUNTIME_DIR}/lib)
+
+# Add source files
+add_executable(${PROJECT_NAME} main.cpp)
+
+# Link libraries
+target_link_libraries(${PROJECT_NAME} 
+    ${OpenCV_LIBS} 
+    CURL::libcurl
+    LibXml2::LibXml2
+    nlohmann_json::nlohmann_json
+    onnxruntime
+)
